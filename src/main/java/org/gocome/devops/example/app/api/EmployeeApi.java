@@ -8,6 +8,7 @@
 
 package org.gocome.devops.example.app.api;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -16,6 +17,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import org.gocome.devops.example.app.exception.ApiException;
@@ -55,16 +57,22 @@ public class EmployeeApi {
 
 	@Path("/signin")
 	@PUT
-	public Employee signin(Employee employee) throws ApiException {
-		if (null != employee && "lizw@primeton.com".equals(employee.getMail())
-				&& "000000".equals(employee.getPassword())) {
-			Employee e = new Employee();
-			e.setId("0848");
-			e.setMail(employee.getMail());
-			e.setName("ZhongWen Li");
-			return e;
+	public boolean signin(Employee employee, @Context HttpServletRequest request) throws ApiException {
+		if (null == request.getSession().getAttribute(Employee.class.getSimpleName())) {
+			if (null != employee && "lizw@primeton.com".equals(employee.getMail())
+					&& "000000".equals(employee.getPassword())) {
+				request.getSession().setAttribute(Employee.class.getSimpleName(), employee);
+				return true;
+			}
 		}
-		return null;
+		return true;
+	}
+	
+	@Path("/signout")
+	@PUT
+	public boolean signout(@Context HttpServletRequest request) throws ApiException {
+		request.getSession().removeAttribute(Employee.class.getSimpleName());
+		return true;
 	}
 	
 }

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta name="viewport"
   content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Sign-in Man-Hour Management System</title>
+<title>Sign-in</title>
 <link rel="stylesheet" type="text/css"
   href="assets/semantic/components/reset.css">
 <link rel="stylesheet" type="text/css"
@@ -100,7 +100,7 @@ body>.grid {
       dataType : "json",
       contentType : "application/json; charset=UTF-8",
       success : function(result) {
-        if (result && result.mail) {
+        if (result == true || result == "true") {
           window.location.href = "index.html";
         }
       },
