@@ -21,6 +21,7 @@ import org.gocome.devops.example.app.model.Employee;
 public class SigninSessionFilter implements Filter {
 	
 	private String excludes;
+	private boolean disable;
 
     /**
      * Default constructor. 
@@ -61,7 +62,7 @@ public class SigninSessionFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest)request;
 		HttpSession session = req.getSession();
-		if (!isExclude(req.getRequestURI()) && null == session.getAttribute(Employee.class.getSimpleName())) {
+		if (!disable && !isExclude(req.getRequestURI()) && null == session.getAttribute(Employee.class.getSimpleName())) {
 			((HttpServletResponse)response).sendRedirect(req.getContextPath() + "/signin.html");
 			System.err.println(String.format("[WARN] You must be login before call the resource %s.", req.getRequestURI()));
 			return;
