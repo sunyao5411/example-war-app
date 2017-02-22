@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport"
+  content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Man-Hour Management System</title>
+
+<!--- Site CSS -->
+<link rel="stylesheet" type="text/css"
+  href="assets/semantic/components/reset.css">
+<link rel="stylesheet" type="text/css"
+  href="assets/semantic/components/site.css">
+<link rel="stylesheet" type="text/css"
+  href="assets/semantic/components/grid.css">
+
+<!--- Component CSS -->
+<link rel="stylesheet" type="text/css"
+  href="assets/semantic/components/menu.css">
+<link rel="stylesheet" type="text/css"
+  href="assets/semantic/components/input.css">
+<link rel="stylesheet" type="text/css"
+  href="assets/semantic/components/dropdown.css">
+<link rel="stylesheet" type="text/css"
+  href="assets/semantic/components/icon.css">
+<link rel="stylesheet" type="text/css"
+  href="assets/semantic/components/button.css">
+<link rel="stylesheet" type="text/css"
+  href="assets/semantic/components/transition.css">
+
+<!--- Example Libs -->
+<link rel="stylesheet" type="text/css"
+  href="assets/semantic/components/popup.css">
+<script src="assets/library/jquery.min.js"></script>
+<script src="assets/library/iframe-content.js"></script>
+<script src="assets/show-examples.js"></script>
+<script type="text/javascript" src="assets/semantic/components/popup.js"></script>
+
+<!--- Component JS -->
+<script type="text/javascript"
+  src="assets/semantic/components/transition.js"></script>
+<script type="text/javascript"
+  src="assets/semantic/components/dropdown.js"></script>
+
+<script type="text/javascript" src="assets/semantic/semantic.min.js"></script>
+<!--- Example CSS -->
+<style>
+body {
+	padding: 1em;
+}
+
+.ui.menu {
+	margin: 3em 0em;
+}
+
+.ui.menu:last-child {
+	margin-bottom: 110px;
+}
+</style>
+
+<!--- Example Javascript -->
+<script>
+  $(document).ready(function() {
+    $('.ui.menu .ui.dropdown').dropdown({
+      on : 'hover'
+    });
+    $('.ui.menu a.item').on('click', function() {
+      $(this).addClass('active').siblings().removeClass('active');
+      console.log($(this).attr("id"));
+    });
+  });
+</script>
+</head>
+<body>
+  <div class="ui inverted menu">
+    <a class="item" id="home">Home</a>
+    <a class="active item" id="link1">Link1</a>
+    <a class="item" id="link2">Link2</a>
+    <div class="ui dropdown item">
+      Link3 <i class="dropdown icon"></i>
+      <div class="menu">
+        <div class="item">Action</div>
+        <div class="item">Another Action</div>
+        <div class="item">Something else here</div>
+        <div class="divider"></div>
+        <div class="item">Separated Link</div>
+        <div class="divider"></div>
+        <div class="item">One more separated link</div>
+      </div>
+    </div>
+    <div class="right menu">
+      <div class="item">
+        <div class="ui transparent inverted icon input">
+          <i class="search icon"></i> <input type="text"
+            placeholder="Search">
+        </div>
+      </div>
+      <a class="item">Link</a>
+    </div>
+  </div>
+
+  <div class="ui large breadcrumb">
+    <a class="section">Home</a> <i class="right angle icon divider"></i>
+    <a class="section">Store</a> <i class="right angle icon divider"></i>
+    <div class="active section">T-Shirt</div>
+  </div>
+
+</body>
+</html>
