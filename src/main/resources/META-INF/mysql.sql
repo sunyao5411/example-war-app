@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS `employee`;
 
 CREATE TABLE `employee` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `no` varchar(64) DEFAULT NULL,
   `name` varchar(64) DEFAULT NULL,
   `mail` varchar(128) NOT NULL DEFAULT '',

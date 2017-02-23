@@ -22,7 +22,10 @@
   <listener>
     <listener-class>
 			org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap
-		</listener-class>
+	</listener-class>
+  </listener>
+  <listener>
+  	<listener-class>org.gocome.devops.example.app.web.DbInitValidator</listener-class>
   </listener>
   <servlet>
     <servlet-name>Resteasy</servlet-name>
@@ -40,7 +43,7 @@
   </servlet-mapping>
   <filter>
   	<filter-name>RestUrlFilter</filter-name>
-  	<filter-class>org.gocome.devops.example.app.filter.SigninSessionFilter</filter-class>
+  	<filter-class>org.gocome.devops.example.app.web.SigninSessionFilter</filter-class>
   	<init-param>
   		<param-name>excludes</param-name>
   		<param-value>/signin.html, /api/employees/signin</param-value>

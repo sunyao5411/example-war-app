@@ -1,4 +1,4 @@
-package org.gocome.devops.example.app.filter;
+package org.gocome.devops.example.app.web;
 
 import java.io.IOException;
 
