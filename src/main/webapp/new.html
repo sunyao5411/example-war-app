@@ -94,8 +94,8 @@ body {
 </head>
 <body>
 	<div class="ui inverted menu">
-		<a class="item" id="home" href="index.html">Home</a> <a class="active item" id="link1">Link1</a>
-		<a class="item" id="link2">Link2</a>
+		<a class="item" id="home" href="index.html">Home</a> <a
+			class="active item" id="link1">Link1</a> <a class="item" id="link2">Link2</a>
 		<div class="ui dropdown item">
 			Link3 <i class="dropdown icon"></i>
 			<div class="menu">
@@ -124,51 +124,90 @@ body {
 		<div class="active section">Employee</div>
 	</div>
 
-	<table class="ui compact celled definition table">
-		<thead class="full-width">
-			<tr>
-				<th></th>
-				<th>NO</th>
-				<th>Name</th>
-				<th>Email</th>
-				<th>Phone</th>
-				<th>Gender</th>
-				<th>Action</th>
-			</tr>
-		</thead>
-		<tbody id="EmployeeItems">
-		</tbody>
-		<tfoot class="full-width">
-			<tr>
-				<th></th>
-				<th colspan="6">
-					<div class="ui right floated small primary labeled icon button">
-						<i class="user icon"></i>
-						<a style="color: white; font-size: 20px; font-weight: bold;" 
-							onclick="add(); return false;">+</a>
-					</div>
-					<!-- 
-					<div class="ui small button">Delete</div>
-					 -->
-				</th>
-			</tr>
-		</tfoot>
-	</table>
-<script type="text/javascript">
-$(function() {
-	init();
-});
+	<form id="employeeForm" class="ui form">
+		<div class="field">
+			<label>NO.</label> <input type="text" name="no"
+				placeholder="Employee NO.">
+		</div>
+		<div class="field">
+			<label>Name</label> <input type="text" name="name"
+				placeholder="Employee Name">
+		</div>
+		<div class="field">
+			<label>Email</label> <input type="text" name="mail"
+				placeholder="Your Email">
+		</div>
+		<div class="field">
+			<label>Password</label> <input type="password" name="password"
+				placeholder="Your Password">
+		</div>
+		<div class="field">
+			<label>Phone</label> <input type="text" name="phone"
+				placeholder="Your Phone NO.">
+		</div>
+		<div class="field">
+			<label>Gender</label> <select name="gender" class="ui fluid dropdown">
+				<option value="M">Male</option>
+				<option value="F">Female</option>
+			</select>
+		</div>
+		<!-- 
+		<div class="field">
+			<div class="ui checkbox">
+				<input type="checkbox" tabindex="0" class="hidden"> <label>I
+					agree to the Terms and Conditions</label>
+			</div>
+		</div>
+		 -->
+		<a class="ui button" onclick="cancel(); return false;">Cancel</a>
+		<a class="ui button primary" onclick="submit(); return false;">Submit</a>
+	</form>
 
-function init() {
+<script type="text/javascript">
+function validate() {
+	return true;
+}
+
+function submit() {
+	if (!validate()) {
+		return false;
+	}
+	$.fn.serializeObject = function()
+	{
+	    var o = {};
+	    var a = this.serializeArray();
+	    $.each(a, function() {
+	        if (o[this.name] !== undefined) {
+	            if (!o[this.name].push) {
+	                o[this.name] = [o[this.name]];
+	            }
+	            o[this.name].push(this.value || '');
+	        } else {
+	            o[this.name] = this.value || '';
+	        }
+	    });
+	    return o;
+	};
+	var data = $("#employeeForm").serializeObject();
+	console.log("form", data);
+	if (!confirm("Are you sure to add this employee ?")) {
+		return false;
+	}
 	$.ajax({
 		url : "api/employees",
-		method : "get",
+		method : "post",
+		data: JSON.stringify({
+	        no: data.no || "",
+	        name: data.name || "",
+	        mail: data.mail || "",
+	        password: data.password || "",
+	        phone: data.phone || "",
+	        gender: data.gender || ""
+	      }),
+		dataType: "json",
 		contentType : "application/json; charset=UTF-8",
 		success : function(result) {
-			console.log(result);
-			if (result) {
-				fillTableContent(result);
-			}
+			window.location.href = "index.html";
 		},
 		error : function(result) {
 			console.log(result);
@@ -176,72 +215,9 @@ function init() {
 	});
 }
 
-function fillTableContent(employees) {
-	if (!employees) {
-		return;
-	}
-	var html = "";
-	for (var i = 0; i < employees.length; i++) {
-		var employee = employees[i];
-		console.log(employee);
-		html += ""
-			+ "<tr>"
-			+ "  <td class=\"collapsing\">"
-			+ "    <div class=\"ui fitted slider checkbox\">"
-			+ "      <input uid=\"" + employee.mail + "\" class=\"checkbox\" type=\"checkbox\"> <label></label>"
-			+ "    </div>"
-			+ "  </td>"
-			+ "  <td>" + (employee.no || "-") + "</td>"
-			+ "  <td>" + (employee.name || "-") + "</td>"
-			+ "  <td>" + (employee.mail || "-") + "</td>"
-			+ "  <td>" + (employee.phone || "-") + "</td>"
-			+ "  <td>" + (employee.gender || "-") + "</td>"
-			+ "  <td>"
-			+ "    <a id=\"delete_" + employee.id + "\">Delete</a>"
-			+ "    <span style=\"padding-left:10px;\">&nbsp;</span>"
-			+ "    <a id=\"edit_" + employee.id + "\">Edit</a>"
-			+ "  </td>"
-			+ "</tr>";
-	}
-	$("#EmployeeItems").empty().append(html);
-	for (var i = 0; i < employees.length; i++) {
-		var employee = employees[i];
-		$("#delete_" + employee.id).off("click").on("click", function() {
-			remove(employee.mail);
-		});
-		$("#edit_" + employee.id).off("click").on("click", function() {
-			edit(employee.mail);
-		});
-	}
-}
-
-function remove(mail) {
-	if (null == mail || 0 == mail.trim().length) {
-		return;
-	}
-	var yes = confirm("Are your sure to delete this employee.");
-	if (yes) {
-		$.ajax({
-			url : "api/employees/" + mail,
-			method : "delete",
-			contentType : "application/json; charset=UTF-8",
-			success : function(result) {
-				console.log(result);
-				init();
-			},
-			error : function(result) {
-				console.log(result);
-			}
-		});
-	}
-}
-
-function edit(mail) {
-	alert(mail);
-}
-
-function add() {
-	window.location.href = "new.html";
+function cancel() {
+	//window.history.back();
+	window.location.href = "index.html";
 }
 </script>
 </body>
