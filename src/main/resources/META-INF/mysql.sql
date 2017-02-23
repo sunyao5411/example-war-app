@@ -17,5 +17,5 @@ VALUES
 	(2,'0002','tiger','tiger@gmail.com','000000','15618332942','F'),
 	(3,'0003','fish','fish@gmail.com','000000','15618332942','F'),
 	(4,'0004','rabbit','rabbit@gmail.com','000000','15618332942','F'),
-	(5,'0005','docker','docker@gmail.com','000000','15618332942','F'),
+	(5,'0005','docker','docker@gmail.com','000000','15618332942','F')
 	;

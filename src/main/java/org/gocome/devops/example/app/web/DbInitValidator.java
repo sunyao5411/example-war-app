@@ -44,7 +44,7 @@ public class DbInitValidator implements ServletContextListener {
 			System.out.println("[" + new Date() + "] [INFO] Db initialized.");
 			return true;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			System.err.println("[" + new Date() + "] [WARN] Db not initialized yet.");
 			return false;
 		} finally {
