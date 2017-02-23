@@ -28,7 +28,7 @@ import org.apache.commons.lang.reflect.MethodUtils;
  */
 public class DbUtils {
 	
-	private static final String DRIVER = "com.mysql.jdbc.Driver";
+	private static final String DRIVER = "com.mysql.jdbc_Driver";
 	private static final String URL = "jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf8&autoReconnect=true&autoReconnectForPools=true&failOverReadOnly=false";
 	private static final String USER = "root";
 	private static final String PASS = "root";
@@ -49,7 +49,7 @@ public class DbUtils {
 	}
 	
 	protected static int getConfigWay() {
-		InputStream input = DbUtils.class.getResourceAsStream("/META-INF/jdbc.properties");
+		InputStream input = DbUtils.class.getResourceAsStream("/jdbc.properties");
 		if (null != input) {
 			try {
 				DB_INFO.load(input);
@@ -60,18 +60,18 @@ public class DbUtils {
 				IOUtils.closeQuietly(input);
 			}
 		}
-		if (StringUtils.isNotBlank(System.getProperty("jdbc.url"))) {
-			DB_INFO.setProperty("jdbc.url", System.getProperty("jdbc.url"));
-			DB_INFO.setProperty("jdbc.user", System.getProperty("jdbc.user"));
-			DB_INFO.setProperty("jdbc.password", System.getProperty("jdbc.password"));
-			DB_INFO.setProperty("jdbc.driver", System.getProperty("jdbc.driver"));
+		if (StringUtils.isNotBlank(System.getProperty("jdbc_url"))) {
+			DB_INFO.setProperty("jdbc_url", System.getProperty("jdbc_url"));
+			DB_INFO.setProperty("jdbc_user", System.getProperty("jdbc_user"));
+			DB_INFO.setProperty("jdbc_password", System.getProperty("jdbc_password"));
+			DB_INFO.setProperty("jdbc_driver", System.getProperty("jdbc_driver"));
 			return WAY_JVM_ENV;
 		}
-		if (StringUtils.isNotBlank(System.getenv("jdbc.url"))) {
-			DB_INFO.setProperty("jdbc.url", System.getenv("jdbc.url"));
-			DB_INFO.setProperty("jdbc.user", System.getenv("jdbc.user"));
-			DB_INFO.setProperty("jdbc.password", System.getenv("jdbc.password"));
-			DB_INFO.setProperty("jdbc.driver", System.getenv("jdbc.driver"));
+		if (StringUtils.isNotBlank(System.getenv("jdbc_url"))) {
+			DB_INFO.setProperty("jdbc_url", System.getenv("jdbc_url"));
+			DB_INFO.setProperty("jdbc_user", System.getenv("jdbc_user"));
+			DB_INFO.setProperty("jdbc_password", System.getenv("jdbc_password"));
+			DB_INFO.setProperty("jdbc_driver", System.getenv("jdbc_driver"));
 			return WAY_OS_ENV;
 		}
 		return WAY_DEFAULT;
@@ -87,9 +87,9 @@ public class DbUtils {
 			return DriverManager.getConnection(URL, USER, PASS);
 		}
 		return DriverManager.getConnection(
-				DB_INFO.getProperty("jdbc.url"), 
-				DB_INFO.getProperty("jdbc.user"), 
-				DB_INFO.getProperty("jdbc.password"));
+				DB_INFO.getProperty("jdbc_url"), 
+				DB_INFO.getProperty("jdbc_user"), 
+				DB_INFO.getProperty("jdbc_password"));
 	}
 	
 	/**
