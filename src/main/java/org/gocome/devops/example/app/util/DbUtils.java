@@ -28,15 +28,17 @@ import org.apache.commons.lang.reflect.MethodUtils;
  */
 public class DbUtils {
 	
-	private static final String DRIVER = "com.mysql.jdbc_Driver";
+	private static final String DRIVER = "com.mysql.jdbc.Driver";
 	private static final String URL = "jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf8&autoReconnect=true&autoReconnectForPools=true&failOverReadOnly=false";
 	private static final String USER = "root";
 	private static final String PASS = "root";
 	
-	private static int WAY_DEFAULT = 0;
-	private static int WAY_OS_ENV = 1;
-	private static int WAY_JVM_ENV = 2;
-	private static int WAY_FILE = 3;
+	private static final int WAY_DEFAULT = 0;
+	private static final int WAY_OS_ENV = 1;
+	private static final int WAY_JVM_ENV = 2;
+	private static final int WAY_FILE = 3;
+	
+	private static int WAY = -1;
 	
 	private static final Properties DB_INFO = new Properties();
 	
@@ -49,11 +51,15 @@ public class DbUtils {
 	}
 	
 	protected static int getConfigWay() {
+		if (WAY >= 0) {
+			return WAY;
+		}
 		InputStream input = DbUtils.class.getResourceAsStream("/jdbc.properties");
 		if (null != input) {
 			try {
 				DB_INFO.load(input);
-				return WAY_FILE;
+				WAY = WAY_FILE;
+				return WAY;
 			} catch (IOException e) {
 				e.printStackTrace();
 			} finally {
@@ -65,16 +71,19 @@ public class DbUtils {
 			DB_INFO.setProperty("jdbc_user", System.getProperty("jdbc_user"));
 			DB_INFO.setProperty("jdbc_password", System.getProperty("jdbc_password"));
 			DB_INFO.setProperty("jdbc_driver", System.getProperty("jdbc_driver"));
-			return WAY_JVM_ENV;
+			WAY = WAY_JVM_ENV;
+			return WAY;
 		}
 		if (StringUtils.isNotBlank(System.getenv("jdbc_url"))) {
 			DB_INFO.setProperty("jdbc_url", System.getenv("jdbc_url"));
 			DB_INFO.setProperty("jdbc_user", System.getenv("jdbc_user"));
 			DB_INFO.setProperty("jdbc_password", System.getenv("jdbc_password"));
 			DB_INFO.setProperty("jdbc_driver", System.getenv("jdbc_driver"));
-			return WAY_OS_ENV;
+			WAY = WAY_OS_ENV;
+			return WAY;
 		}
-		return WAY_DEFAULT;
+		WAY = WAY_DEFAULT;
+		return WAY;
 	}
 	
 	/**
