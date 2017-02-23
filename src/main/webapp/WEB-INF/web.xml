@@ -46,7 +46,7 @@
   	<filter-class>org.gocome.devops.example.app.web.SigninSessionFilter</filter-class>
   	<init-param>
   		<param-name>excludes</param-name>
-  		<param-value>/signin.html, /api/employees/signin</param-value>
+  		<param-value>/signin.html, /configuration.html, /api/employees/signin</param-value>
   	</init-param>
   	<init-param>
   		<param-name>disable</param-name>

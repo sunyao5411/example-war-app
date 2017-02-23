@@ -1,2 +1,3 @@
 org.gocome.devops.example.app.api.PingApi,
-org.gocome.devops.example.app.api.EmployeeApi
+org.gocome.devops.example.app.api.EmployeeApi,
+org.gocome.devops.example.app.api.ConfigurationApi

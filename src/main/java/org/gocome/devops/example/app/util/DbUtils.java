@@ -9,6 +9,8 @@
 package org.gocome.devops.example.app.util;
 
 import java.io.Closeable;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
@@ -28,19 +30,20 @@ import org.apache.commons.lang.reflect.MethodUtils;
  */
 public class DbUtils {
 	
-	private static final String DRIVER = "com.mysql.jdbc.Driver";
-	private static final String URL = "jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf8&autoReconnect=true&autoReconnectForPools=true&failOverReadOnly=false";
-	private static final String USER = "root";
-	private static final String PASS = "root";
+	public static final String DRIVER = "com.mysql.jdbc.Driver";
+	public static final String URL = "jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf8&autoReconnect=true&autoReconnectForPools=true&failOverReadOnly=false";
+	public static final String USER = "root";
+	public static final String PASS = "root";
 	
-	private static final int WAY_DEFAULT = 0;
-	private static final int WAY_OS_ENV = 1;
-	private static final int WAY_JVM_ENV = 2;
-	private static final int WAY_FILE = 3;
+	public static final int WAY_DEFAULT = 0;
+	public static final int WAY_OS_ENV = 1;
+	public static final int WAY_JVM_ENV = 2;
+	public static final int WAY_CLASSPATH_FILE = 3;
+	public static final int WAY_LOCAL_FILE = 4;
 	
-	private static int WAY = -1;
+	public static int WAY = -1;
 	
-	private static final Properties DB_INFO = new Properties();
+	public static final Properties DB_INFO = new Properties();
 	
 	static {
 		try {
@@ -54,11 +57,25 @@ public class DbUtils {
 		if (WAY >= 0) {
 			return WAY;
 		}
+		File f = new File("/tmp/jdbc.properties");
+		if (f.exists() && f.isFile()) {
+			WAY = WAY_LOCAL_FILE;
+			InputStream input = null;
+			try {
+				input = new FileInputStream(f);
+				DB_INFO.load(input);
+				return WAY;
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				IOUtils.closeQuietly(input);
+			}
+		}
 		InputStream input = DbUtils.class.getResourceAsStream("/jdbc.properties");
 		if (null != input) {
 			try {
 				DB_INFO.load(input);
-				WAY = WAY_FILE;
+				WAY = WAY_CLASSPATH_FILE;
 				return WAY;
 			} catch (IOException e) {
 				e.printStackTrace();
