@@ -135,7 +135,7 @@ body {
 		</div>
 		<div class="field">
 			<label>Email</label> <input type="text" name="mail" id="mail"
-				onblur="validateEmail()" placeholder="Your Email (limit length 64)">
+				readonly="readonly" placeholder="Your Email (limit length 64)">
 		</div>
 		<div class="field">
 			<label>Password</label> <input type="password" name="password" id="password"
@@ -164,103 +164,119 @@ body {
 	</form>
 
 <script type="text/javascript">
-function validateEmail() {
-	var mail = $("#employeeForm #mail").val();
-	if (null == mail || 0 == mail.trim().length) {
-		return false;
+
+	function getQueryParam(name) {
+		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+		var r = window.location.search.substr(1).match(reg);
+		if (r != null) {
+			return decodeURI(r[2]);
+		}
+		return null;
 	}
-	$.ajax({
-		url : "api/employees/" + mail,
-		method : "get",
-		contentType : "application/json; charset=UTF-8",
-		async: false,
-		success : function(result) {
-			if (result) {
-				$("#employeeForm #mail").val("");
-				alert("Email " + mail + " already in use.");
+	
+	var mail = getQueryParam("mail");
+	
+	$(function() {
+		if (null == mail || 0 == mail.trim().length) {
+			return;
+		}
+		$.ajax({
+			url : "api/employees/" + mail,
+			method : "get",
+			contentType : "application/json; charset=UTF-8",
+			async : false,
+			success : function(result) {
+				if (result) {
+					console.log(result);
+					$("#employeeForm #no").val(result.no);
+					$("#employeeForm #name").val(result.name);
+					$("#employeeForm #mail").val(result.mail);
+					$("#employeeForm #phone").val(result.phone);
+					$("#employeeForm #password").val(result.password);
+					$("#employeeForm #gender").val(result.gender);
+				}
+			},
+			error : function(result) {
+				console.log(result);
 			}
-		},
-		error : function(result) {
-			console.log(result);
-		}
+		});
 	});
-}
 
-function validate() {
-	var no = $("#employeeForm #no").val();
-	if (null == no || 0 == no.trim().length || 64 < no.length) {
-		return false;
-	}
-	var name = $("#employeeForm #name").val();
-	if (null == name || 0 == name.trim().length || 64 < name.length) {
-		return false;
-	}
-	var mail = $("#employeeForm #mail").val();
-	if (null == mail || 0 == mail.trim().length || 64 < mail.length) {
-		return false;
-	}
-	var password = $("#employeeForm #password").val();
-	if (null == password || 0 == password.trim().length || 64 < password.length) {
-		return false;
-	}
-	var phone = $("#employeeForm #phone").val();
-	if (null == phone || 0 == phone.trim().length || 16 < phone.length) {
-		return false;
-	}
-	return true;
-}
-
-function submit() {
-	if (!validate()) {
-		return false;
-	}
-	$.fn.serializeObject = function()
-	{
-	    var o = {};
-	    var a = this.serializeArray();
-	    $.each(a, function() {
-	        if (o[this.name] !== undefined) {
-	            if (!o[this.name].push) {
-	                o[this.name] = [o[this.name]];
-	            }
-	            o[this.name].push(this.value || '');
-	        } else {
-	            o[this.name] = this.value || '';
-	        }
-	    });
-	    return o;
-	};
-	var data = $("#employeeForm").serializeObject();
-	console.log("form", data);
-	if (!confirm("Are you sure to add this employee ?")) {
-		return false;
-	}
-	$.ajax({
-		url : "api/employees",
-		method : "post",
-		data: JSON.stringify({
-	        no: data.no || "",
-	        name: data.name || "",
-	        mail: data.mail || "",
-	        password: data.password || "",
-	        phone: data.phone || "",
-	        gender: data.gender || ""
-	      }),
-		dataType: "json",
-		contentType : "application/json; charset=UTF-8",
-		success : function(result) {
-			window.location.href = "index.html";
-		},
-		error : function(result) {
-			console.log(result);
+	function validate() {
+		var no = $("#employeeForm #no").val();
+		if (null == no || 0 == no.trim().length || 64 < no.length) {
+			return false;
 		}
-	});
-}
+		var name = $("#employeeForm #name").val();
+		if (null == name || 0 == name.trim().length || 64 < name.length) {
+			return false;
+		}
+		var mail = $("#employeeForm #mail").val();
+		if (null == mail || 0 == mail.trim().length || 64 < mail.length) {
+			return false;
+		}
+		var password = $("#employeeForm #password").val();
+		if (null == password || 0 == password.trim().length
+				|| 64 < password.length) {
+			return false;
+		}
+		var phone = $("#employeeForm #phone").val();
+		if (null == phone || 0 == phone.trim().length || 16 < phone.length) {
+			return false;
+		}
+		return true;
+	}
 
-function cancel() {
-	//window.history.back();
-	window.location.href = "index.html";
-}
+	function submit() {
+		if (!validate()) {
+			return false;
+		}
+		$.fn.serializeObject = function() {
+			var o = {};
+			var a = this.serializeArray();
+			$.each(a, function() {
+				if (o[this.name] !== undefined) {
+					if (!o[this.name].push) {
+						o[this.name] = [ o[this.name] ];
+					}
+					o[this.name].push(this.value || '');
+				} else {
+					o[this.name] = this.value || '';
+				}
+			});
+			return o;
+		};
+		var data = $("#employeeForm").serializeObject();
+		console.log("form", data);
+		if (!confirm("Are you sure to change this employee ?")) {
+			return false;
+		}
+		$.ajax({
+			url : "api/employees",
+			method : "put",
+			data : JSON.stringify({
+				no : data.no || "",
+				name : data.name || "",
+				mail : data.mail || "",
+				password : data.password || "",
+				phone : data.phone || "",
+				gender : data.gender || ""
+			}),
+			dataType : "json",
+			contentType : "application/json; charset=UTF-8",
+			success : function(result) {
+				window.location.href = "index.html";
+			},
+			error : function(result) {
+				console.log(result);
+			}
+		});
+	}
+
+	function cancel() {
+		//window.history.back();
+		window.location.href = "index.html";
+	}
 </script>
 </body>
 </html>

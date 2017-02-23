@@ -197,20 +197,20 @@ function fillTableContent(employees) {
 			+ "  <td>" + (employee.phone || "-") + "</td>"
 			+ "  <td>" + (employee.gender || "-") + "</td>"
 			+ "  <td>"
-			+ "    <a id=\"delete_" + employee.id + "\">Delete</a>"
+			+ "    <a class=\"delete_button\" mail=\"" + employee.mail + "\">Delete</a>"
 			+ "    <span style=\"padding-left:10px;\">&nbsp;</span>"
-			+ "    <a id=\"edit_" + employee.id + "\">Edit</a>"
+			+ "    <a class=\"edit_button\" mail=\"" + employee.mail + "\">Edit</a>"
 			+ "  </td>"
 			+ "</tr>";
 	}
 	$("#EmployeeItems").empty().append(html);
 	for (var i = 0; i < employees.length; i++) {
 		var employee = employees[i];
-		$("#delete_" + employee.id).off("click").on("click", function() {
-			remove(employee.mail);
+		$(".delete_button").off("click").on("click", function() {
+			remove($(this).attr("mail"));
 		});
-		$("#edit_" + employee.id).off("click").on("click", function() {
-			edit(employee.mail);
+		$(".edit_button").off("click").on("click", function() {
+			edit($(this).attr("mail"));
 		});
 	}
 }
@@ -237,7 +237,10 @@ function remove(mail) {
 }
 
 function edit(mail) {
-	alert(mail);
+	if (null == mail || 0 == mail.trim().length) {
+		return;
+	}
+	window.location.href = "edit.html?mail=" + mail;
 }
 
 function add() {
