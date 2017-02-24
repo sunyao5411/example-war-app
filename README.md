@@ -22,3 +22,13 @@
 	export jdbc_user=root
 	export jdbc_password=root
 	# run application
+  
+## Preview
+  
+![Alt text](README/signin.png)
+![Alt text](README/configuration.png)
+![Alt text](README/env-os.png)
+![Alt text](README/env-jvm.png)
+![Alt text](README/index.png)
+![Alt text](README/edit.png)
+  
