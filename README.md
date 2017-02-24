@@ -3,6 +3,9 @@
 
 ## MySQL Configuration
 
+	# Priority 0
+	# Visit http://localhost:8080/app/configuration.html and configure jdbc
+	
 	# Priority 1
 	# /WEB-INF/classes/jdbc.properties
 	jdbc_url=jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf8&autoReconnect=true&autoReconnectForPools=true&failOverReadOnly=false
