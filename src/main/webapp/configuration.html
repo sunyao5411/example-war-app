@@ -94,7 +94,7 @@ body {
 </head>
 <body>
 	<div class="ui inverted menu">
-		<a class="item" id="home" href="index.html">Home</a> <a
+		<a class="item" id="home" href="index.html"><i class="home icon"></i>Home</a> <a
 			class="active item" id="link1">Link1</a> <a class="item" id="link2">Link2</a>
 		<div class="ui dropdown item">
 			Link3 <i class="dropdown icon"></i>
@@ -114,7 +114,8 @@ body {
 					<i class="search icon"></i> <input type="text" placeholder="Search">
 				</div>
 			</div>
-			<a class="item" onclick="signout(); return false;">Signout</a>
+			<a class="item" onclick="signout(); return false;"><i class="sign out icon"></i>
+			Sign-out</a>
 		</div>
 	</div>
 
@@ -125,7 +126,9 @@ body {
 	</div>
 	<br/>
 	<br/>
-
+	<i class="setting icon big"></i>MySQL JDBC Configuration	
+	<br/>
+	<br/>
 	<form id="dbForm" class="ui form">
 		<div class="field">
 			<label>URL.</label> <input type="text" name="url" id="url"
