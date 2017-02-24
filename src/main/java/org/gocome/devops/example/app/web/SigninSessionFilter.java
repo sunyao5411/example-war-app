@@ -47,9 +47,12 @@ public class SigninSessionFilter implements Filter {
 		// if uri in excludes return true else false
 		// TODO
 		return StringUtils.isNotBlank(uri) && (uri.endsWith("signin.html")
-				|| uri.endsWith("/api/employees/signin")
 				|| uri.endsWith("configuration.html")
-				|| uri.endsWith("api/configurations/jdbc"));
+				|| uri.endsWith("system.html")
+				|| uri.endsWith("/api/employees/signin")
+				|| uri.endsWith("/api/configurations/jdbc")
+				|| uri.endsWith("/api/configurations/systems")
+				|| uri.endsWith("/api/configurations/environments"));
 	}
 
 	/**
