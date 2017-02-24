@@ -23,6 +23,12 @@
 	export jdbc_password=root
 	# run application
   
+## Analyzing with SonarQube Scanner for Maven
+  
+	mvn sonar:sonar -Dsonar.host.url=http://10.15.15.81:9000/sonar
+	mvn clean install sonar:sonar -Dsonar.host.url=http://10.15.15.81:9000/sonar -Dfile.encoding=utf-8 -s ~/.m2/aliyun.xml
+	
+   
 ## Preview
   
 ![Alt text](README/signin.png)
