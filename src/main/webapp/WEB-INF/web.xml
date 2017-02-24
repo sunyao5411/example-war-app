@@ -20,18 +20,14 @@
     <welcome-file>index.html</welcome-file>
   </welcome-file-list>
   <listener>
-    <listener-class>
-			org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap
-	</listener-class>
+    <listener-class>org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap</listener-class>
   </listener>
   <listener>
   	<listener-class>org.gocome.devops.example.app.web.DbInitValidator</listener-class>
   </listener>
   <servlet>
     <servlet-name>Resteasy</servlet-name>
-    <servlet-class>
-			org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher
-	</servlet-class>
+    <servlet-class>org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</servlet-class>
     <init-param>
       <param-name>javax.ws.rs.Application</param-name>
       <param-value>org.gocome.devops.example.app.resteasy.RestEasyApplication</param-value>
@@ -41,8 +37,9 @@
     <servlet-name>Resteasy</servlet-name>
     <url-pattern>/api/*</url-pattern>
   </servlet-mapping>
+  <!-- 
   <filter>
-  	<filter-name>RestUrlFilter</filter-name>
+  	<filter-name>SessionFilter</filter-name>
   	<filter-class>org.gocome.devops.example.app.web.SigninSessionFilter</filter-class>
   	<init-param>
   		<param-name>excludes</param-name>
@@ -54,8 +51,9 @@
   	</init-param>
   </filter>
   <filter-mapping>
-  	<filter-name>RestUrlFilter</filter-name>
+  	<filter-name>SessionFilter</filter-name>
   	<url-pattern>/api/*</url-pattern>
   	<url-pattern>*.html</url-pattern>
   </filter-mapping>
+   -->
 </web-app>
