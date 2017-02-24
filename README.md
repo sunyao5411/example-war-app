@@ -29,6 +29,11 @@
 	mvn clean install sonar:sonar -Dsonar.host.url=http://10.15.15.81:9000/sonar -Dfile.encoding=utf-8 -s ~/.m2/aliyun.xml
 	
    
+## About  
+  
+- Web UI [http://semantic-ui.com](http://resteasy.jboss.org/)
+- RESTful Framework [http://resteasy.jboss.org](http://resteasy.jboss.org)
+  
 ## Preview
   
 ![Alt text](README/signin.png)
@@ -37,4 +42,5 @@
 ![Alt text](README/env-jvm.png)
 ![Alt text](README/index.png)
 ![Alt text](README/edit.png)
+![Alt text](README/delete.png)
   
