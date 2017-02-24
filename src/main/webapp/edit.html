@@ -122,7 +122,7 @@ body {
 		<a class="ui button primary" onclick="submit(); return false;">Submit</a>
 	</form>
 
-	<div id="delete_confirm_dialog" class="ui basic modal">
+	<div id="confirm_dialog" class="ui basic modal">
 		<div class="ui icon header">
 			<i class="warning sign icon yellow"></i>
 		</div>
@@ -225,8 +225,8 @@ body {
 		var data = $("#employeeForm").serializeObject();
 		console.log("form", data);
 		// Pop Dialog
-		$("#delete_confirm_dialog").modal('show');
-		$("#delete_confirm_dialog .actions .button.ok").off("click").on("click", function() {
+		$("#confirm_dialog").modal('show');
+		$("#confirm_dialog .actions .button.ok").off("click").on("click", function() {
 			$.ajax({
 				url : "api/employees",
 				method : "put",
@@ -247,7 +247,7 @@ body {
 					console.log(result);
 				}
 			});
-			$("#delete_confirm_dialog .actions .button.ok").off("click");
+			$("#confirm_dialog .actions .button.ok").off("click");
 		});
 	}
 

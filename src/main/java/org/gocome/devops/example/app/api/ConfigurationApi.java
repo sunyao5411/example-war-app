@@ -25,6 +25,7 @@ import javax.ws.rs.core.MediaType;
 import org.apache.commons.io.IOUtils;
 import org.gocome.devops.example.app.exception.ApiException;
 import org.gocome.devops.example.app.model.JdbcConfiguration;
+import org.gocome.devops.example.app.util.DbInitUtils;
 import org.gocome.devops.example.app.util.DbUtils;
 
 /**
@@ -69,6 +70,13 @@ public class ConfigurationApi {
 		} finally {
 			IOUtils.closeQuietly(out);
 		}
+		return true;
+	}
+	
+	@Path("/jdbc/init")
+	@PUT
+	public boolean initialize() throws ApiException {
+		DbInitUtils.initialize();
 		return true;
 	}
 	
