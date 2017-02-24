@@ -60,8 +60,8 @@ body {
 		<div class="ui dropdown item">
 			System <i class="dropdown icon"></i>
 			<div class="menu">
-				<a class="item" href="system.html">Environment</a>
-				<a class="item" href="configuration.html">Configuration</a>
+				<a class="item" href="system.html">Environment</a> <a class="item"
+					href="configuration.html">Configuration</a>
 			</div>
 		</div>
 		<div class="right menu">
@@ -70,18 +70,19 @@ body {
 					<i class="search icon"></i> <input type="text" placeholder="Search">
 				</div>
 			</div>
-			<a class="item" onclick="signout(); return false;"><i class="sign out icon"></i>
-			Sign-out</a>
+			<a class="item" onclick="signout(); return false;"><i
+				class="sign out icon"></i> Sign-out</a>
 		</div>
 	</div>
 
 	<div class="ui large breadcrumb">
-		<a class="section" href="index.html">Home</a> <i class="right angle icon divider"></i> <a
-			class="section">UC</a> <i class="right angle icon divider"></i>
+		<a class="section" href="index.html">Home</a> <i
+			class="right angle icon divider"></i> <a class="section">UC</a> <i
+			class="right angle icon divider"></i>
 		<div class="active section">Employee</div>
 	</div>
-	<br/>
-	<br/>
+	<br />
+	<br />
 
 	<table class="ui compact celled definition table">
 		<thead class="full-width">
@@ -102,18 +103,34 @@ body {
 				<th></th>
 				<th colspan="6">
 					<div class="ui right floated small primary labeled icon button">
-						<i class="user icon"></i>
-						<a style="color: white; font-weight: bold;" 
+						<i class="user icon"></i> <a
+							style="color: white; font-weight: bold;"
 							onclick="add(); return false;">ADD</a>
-					</div>
-					<!-- 
+					</div> <!-- 
 					<div class="ui small button">Delete</div>
 					 -->
 				</th>
 			</tr>
 		</tfoot>
 	</table>
-<script type="text/javascript">
+
+	<div id="delete_confirm_dialog" class="ui basic modal">
+		<div class="ui icon header">
+			<i class="warning sign icon yellow"></i>
+		</div>
+		<div class="content">
+			<p style="font-size: 25px; text-align:center;">You are sure to delete the employee ?</p>
+		</div>
+		<div class="actions">
+			<div class="ui red basic cancel inverted button">
+				<i class="remove icon"></i> No
+			</div>
+			<div class="ui green ok inverted button">
+				<i class="checkmark icon"></i> Yes
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
 $(function() {
 	init();
 });
@@ -178,8 +195,8 @@ function remove(mail) {
 	if (null == mail || 0 == mail.trim().length) {
 		return;
 	}
-	var yes = confirm("Are your sure to delete this employee.");
-	if (yes) {
+	$("#delete_confirm_dialog").modal('show');
+	$("#delete_confirm_dialog .actions .button.ok").off("click").on("click", function() {
 		$.ajax({
 			url : "api/employees/" + mail,
 			method : "delete",
@@ -192,7 +209,8 @@ function remove(mail) {
 				console.log(result);
 			}
 		});
-	}
+		$("#delete_confirm_dialog .actions .button.ok").off("click");
+	});
 }
 
 function edit(mail) {

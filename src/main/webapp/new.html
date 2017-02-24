@@ -122,6 +122,23 @@ body {
 		<a class="ui button primary" onclick="submit(); return false;">Submit</a>
 	</form>
 
+	<div id="delete_confirm_dialog" class="ui basic modal">
+		<div class="ui icon header">
+			<i class="warning sign icon yellow"></i>
+		</div>
+		<div class="content">
+			<p style="font-size: 25px; text-align:center;">You are sure to add the employee ?</p>
+		</div>
+		<div class="actions">
+			<div class="ui red basic cancel inverted button">
+				<i class="remove icon"></i> No
+			</div>
+			<div class="ui green ok inverted button">
+				<i class="checkmark icon"></i> Yes
+			</div>
+		</div>
+	</div>
+
 <script type="text/javascript">
 function validateEmail() {
 	var mail = $("#employeeForm #mail").val();
@@ -191,28 +208,30 @@ function submit() {
 	};
 	var data = $("#employeeForm").serializeObject();
 	console.log("form", data);
-	if (!confirm("Are you sure to add this employee ?")) {
-		return false;
-	}
-	$.ajax({
-		url : "api/employees",
-		method : "post",
-		data: JSON.stringify({
-	        no: data.no || "",
-	        name: data.name || "",
-	        mail: data.mail || "",
-	        password: data.password || "",
-	        phone: data.phone || "",
-	        gender: data.gender || ""
-	      }),
-		dataType: "json",
-		contentType : "application/json; charset=UTF-8",
-		success : function(result) {
-			window.location.href = "index.html";
-		},
-		error : function(result) {
-			console.log(result);
-		}
+	// Pop Dialog
+	$("#delete_confirm_dialog").modal('show');
+	$("#delete_confirm_dialog .actions .button.ok").off("click").on("click", function() {
+		$.ajax({
+			url : "api/employees",
+			method : "post",
+			data: JSON.stringify({
+		        no: data.no || "",
+		        name: data.name || "",
+		        mail: data.mail || "",
+		        password: data.password || "",
+		        phone: data.phone || "",
+		        gender: data.gender || ""
+		      }),
+			dataType: "json",
+			contentType : "application/json; charset=UTF-8",
+			success : function(result) {
+				window.location.href = "index.html";
+			},
+			error : function(result) {
+				console.log(result);
+			}
+		});
+		$("#delete_confirm_dialog .actions .button.ok").off("click");
 	});
 }
 
