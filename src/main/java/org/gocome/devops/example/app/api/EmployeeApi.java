@@ -193,18 +193,18 @@ public class EmployeeApi {
 	@Path("/signin")
 	@PUT
 	public boolean signin(Employee employee, @Context HttpServletRequest request) throws ApiException {
-		if (null == request.getSession().getAttribute(Employee.class.getSimpleName())) {
+		if (null != employee && null == request.getSession().getAttribute(Employee.class.getSimpleName())) {
 			Employee e = get(employee.getMail());
 			if (null == e) {
 				return false;
 			}
-			if (null != employee && StringUtils.equals(employee.getMail(), e.getMail())
+			if (StringUtils.equals(employee.getMail(), e.getMail())
 					&& StringUtils.equals(employee.getPassword(), e.getPassword())) {
 				request.getSession().setAttribute(Employee.class.getSimpleName(), employee);
 				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 	
 	@Path("/signout")
