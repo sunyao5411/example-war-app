@@ -31,7 +31,7 @@
    
 ## About  
   
-- Web UI [http://semantic-ui.com](http://resteasy.jboss.org/)
+- Web UI [http://semantic-ui.com](http://semantic-ui.com)
 - RESTful Framework [http://resteasy.jboss.org](http://resteasy.jboss.org)
   
 ## Preview
